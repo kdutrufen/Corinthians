@@ -1,0 +1,384 @@
+---
+title: "Corinthians"
+author: "Carlos Eduardo Madureira Trufen"
+date: "2024-08-13"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r}
+library(tidyverse)
+```
+
+# Define the S4 class
+```{r}
+setClass("CorinthiansMatch",
+         slots = list(
+           stadium = "character",
+           city = "character",
+           country = "character",
+           competition_type = "character",
+           corinthians_goals = "numeric",
+           opponent_goals = "numeric",
+           coach = "CoachProfile",
+           opponent_name = "character",
+           date = "Date",
+           referee_name = "character",
+           # starting_goalkeeper = "PlayerProfile",
+           starting_lineup = "list", # List of PlayerProfile objects
+           substitutes = "list",      # List of PlayerProfile objects
+           red_cards = "list", 
+           goals = "list" 
+         )
+)
+
+# Define the generic function
+setGeneric("validateGoals", function(object) standardGeneric("validateGoals"))
+
+# Add the validation method to the CorinthiansMatch class
+setMethod("validateGoals", "CorinthiansMatch", function(object) {
+  total_goals_recorded <- length(object@goals)
+  total_goals_expected <- object@corinthians_goals 
+
+  if (total_goals_recorded != total_goals_expected) {
+    warning(paste("Mismatch in goal count for match on", object@date, 
+                  "- Expected:", total_goals_expected, 
+                  "Recorded:", total_goals_recorded))
+    # Or you could use 'stop()' to raise an error and halt execution if you prefer
+  }
+})
+
+# Player Profile
+setClass("PlayerProfile",
+         slots = list(
+           full_name = "character",
+           player = "character",
+           birth_date = "Date",
+           country_of_origin = "character" 
+           # Add other relevant player attributes here (position, etc.)
+         )
+)
+
+# Coach Profile
+setClass("CoachProfile",
+         slots = list(
+           full_name = "character",
+           coach = "character",
+           birth_date = "Date",
+           country_of_origin = "character" 
+           # Add other relevant coach attributes here
+         )
+)
+
+setClass("Goal",
+         slots = list(
+           scorer = "PlayerProfile",
+           minute = "numeric",
+           match = "CorinthiansMatch" # Optional
+         )
+)
+```
+
+```{r}
+# Create player and coach profiles
+Cássio <- new("PlayerProfile", full_name = "Cássio Ramos", player = "Cássio", birth_date = as.Date("1987-06-06"), country_of_origin = "Brasil")
+Fágner <- new("PlayerProfile", full_name = "Fágner Conserva Lemos", player = "Fágner", birth_date = as.Date("1989-06-11"), country_of_origin = "Brasil")
+F_Torres <- new("PlayerProfile", full_name = "Félix Eduardo Torres Caicedo", player = "F. Torres", birth_date = as.Date("1997-01-11"), country_of_origin = "Equador")
+Hugo <- new("PlayerProfile", full_name = "Hugo Ferreira de Farias", player = "Hugo", birth_date = as.Date("1997-08-29"), country_of_origin = "Brasil")
+Caetano <- new("PlayerProfile", full_name = "João Victor Andrade Caetano", player = "Caetano", birth_date = as.Date("1999-06-24"), country_of_origin = "Brasil")
+M_Rojas <- new("PlayerProfile", full_name = "Matías Nicolás Rojas Romero", player = "M. Rojas", birth_date = as.Date("1995-11-03"), country_of_origin = "Paraguai")
+Maycon <- new("PlayerProfile", full_name = "Maycon de Andrade Barberan", player = "Maycon", birth_date = as.Date("1997-07-15"), country_of_origin = "Brasil")
+Raniele <- new("PlayerProfile", full_name = "Raniele Almeida Melo", player = "Raniele", birth_date = as.Date("1996-12-31"), country_of_origin = "Brasil")
+Matheus_Araújo <- new("PlayerProfile", full_name = "Matheus de Araújo Andrade", player = "Matheus Araújo", birth_date = as.Date("2002-05-22"), country_of_origin = "Brasil")
+Ángel_Romero <- new("PlayerProfile", full_name = "Ángel Rodrigo Romero Villamayor", player = "Ángel Romero", birth_date = as.Date("1992-07-04"), country_of_origin = "Paraguai")
+Yuri_Alberto <- new("PlayerProfile", full_name = "Yuri Alberto Monteiro da Silva", player = "Yuri Alberto", birth_date = as.Date("2001-03-18"), country_of_origin = "Brasil")
+Wesley <- new("PlayerProfile", full_name = "Wesley Gassova Ribeiro Teixeira", player = "Wesley", birth_date = as.Date("2005-03-05"), country_of_origin = "Brasil")
+Fausto_Vera <- new("PlayerProfile", full_name = "Fausto Mariano Vera", player = "F. Vera", birth_date = as.Date("2000-03-26"), country_of_origin = "Argentina")
+Gustavo_Silva <- new("PlayerProfile", full_name = "Gustavo Henric da Silva", player = "Gustavo Silva", birth_date = as.Date("1997-09-07"), country_of_origin = "Brasil")
+Yago_Kauã <- new("PlayerProfile", full_name = "Yago Kauã Rodrigues Gonçalves", player = "Yago Kauã", birth_date = as.Date("2006-02-05"), country_of_origin = "Brasil")
+
+D_Palacios <- new("PlayerProfile", full_name = "Diego José Palacios Espinoza", player = "D. Palacios", birth_date = as.Date("1999-07-12"), country_of_origin = "Equador")
+
+Arthur_Sousa <- new("PlayerProfile", full_name = "Arthur Sousa Araújo", player = "Arthur Sousa", birth_date = as.Date("2003-03-12"), country_of_origin = "Brasil")
+
+Raul_Gustavo <- new("PlayerProfile", full_name = "Raul Gustavo Pereira Bicalho", player = "Raul Gustavo", birth_date = as.Date("1999-04-24"), country_of_origin = "Brasil")
+
+Kayke <- new("PlayerProfile", full_name = "Kayke Ferrari Guimarães", player = "Kayke", birth_date = as.Date("2004-04-28"), country_of_origin = "Brasil")
+
+Ryan_Gustavo <- new("PlayerProfile", full_name = "Ryan Gustavo de Lima", player = "Ryan Gustavo", birth_date = as.Date("2003-07-15"), country_of_origin = "Brasil")
+
+Mano_Menezes <- new("CoachProfile", full_name = "Luiz Antônio Venker de Menezes", coach = "Mano Menezes", birth_date = as.Date("1962-06-11"), country_of_origin = "Brasil")
+
+all_player_profiles <- c(Cássio, Fágner, F_Torres, Hugo, Caetano, M_Rojas, Maycon, Raniele, Matheus_Araújo, Ángel_Romero, Yuri_Alberto, Wesley, Fausto_Vera, Gustavo_Silva, Yago_Kauã)
+
+player_profile_df <- data.frame(
+  full_name = sapply(all_player_profiles, function(p) p@full_name),
+  player = sapply(all_player_profiles, function(p) p@player),
+  birth_date = sapply(all_player_profiles, function(p) p@birth_date),
+  country_of_origin = sapply(all_player_profiles, function(p) p@country_of_origin)
+  # Add more columns for other attributes if needed
+) %>% 
+  mutate(birth_date = birth_date %>% as.Date()) %>% 
+  dplyr::select(player, full_name, birth_date, country_of_origin)
+
+# luxemburgo <- new("CoachProfile", name = "Vanderlei Luxemburgo", birth_date = as.Date("1952-05-10"))
+```
+
+
+# Season 2024
+# Campeonato Paulista A1 - round 1
+```{r}
+# Create a match object
+season_2024_cp_round_1 <- new("CorinthiansMatch",
+              stadium = "Neo Química Arena",
+              city = "São Paulo (SP)",
+              country = "Brasil",
+              competition_type = "Campeonato Paulista A1",
+              corinthians_goals = 1,
+              opponent_goals = 0,
+              coach = Mano_Menezes,
+              opponent_name = "Guarani",
+              date = as.Date("2024-01-21"),
+              referee_name = "Thiago Luis Scarascati",
+              # starting_goalkeeper = Cássio,
+              starting_lineup = list( # Create PlayerProfile objects for each player
+                Cássio,
+                Fágner,
+                F_Torres,
+                Hugo,
+                Caetano,
+                M_Rojas,
+                Maycon,
+                Raniele,
+                Matheus_Araújo,
+                Ángel_Romero,
+                Yuri_Alberto
+              ), 
+              substitutes = list(
+                Wesley,
+                Fausto_Vera,
+                Gustavo_Silva,
+                Yago_Kauã
+              ),
+              red_cards = list(NULL),
+              goals = list(
+                list(scorer = Ángel_Romero, minute = 28)
+                )
+)
+
+# Call the validation method
+validateGoals(season_2024_cp_round_1) 
+```
+
+# Campeonato Paulista A1 - round 2
+```{r}
+season_2024_cp_round_2 <- new("CorinthiansMatch",
+              stadium = " Estádio Municipal Dr. Novelli Júnior",
+              city = "Itu (SP)",
+              country = "Brasil",
+              competition_type = "Campeonato Paulista A1",
+              corinthians_goals = 0,
+              opponent_goals = 1,
+              coach = Mano_Menezes,
+              opponent_name = "Ituano",
+              date = as.Date("2024-01-24"),
+              referee_name = "Matheus Delgado Candançan",
+              # starting_goalkeeper = Cássio,
+              starting_lineup = list( # Create PlayerProfile objects for each player
+                Cássio,
+                Fágner,
+                F_Torres,
+                Hugo,
+                Caetano,
+                M_Rojas,
+                Maycon,
+                Raniele,
+                Matheus_Araújo,
+                Ángel_Romero,
+                Yuri_Alberto
+              ), 
+              substitutes = list(
+                Wesley,
+                Fausto_Vera,
+                Gustavo_Silva,
+                Yago_Kauã
+              ),
+              red_cards = list(NULL),
+              goals = list(NULL)
+)
+
+validateGoals(season_2024_cp_round_2) 
+
+```
+
+# Campeonato Paulista A1 - round 3
+```{r}
+season_2024_cp_round_3 <- new("CorinthiansMatch",
+              stadium = "Estádio Primeiro de Maio",
+              city = "São Bernardo do Campo (SP)",
+              country = "Brasil",
+              competition_type = "Campeonato Paulista A1",
+              corinthians_goals = 0,
+              opponent_goals = 1,
+              coach = Mano_Menezes,
+              opponent_name = "São Bernardo",
+              date = as.Date("2024-01-28"),
+              referee_name = "João Vitor Gobi",
+              starting_lineup = list( # Create PlayerProfile objects for each player
+                Cássio,
+                Fágner,
+                D_Palacios,
+                F_Torres,
+                Caetano,
+                M_Rojas,
+                Maycon,
+                Raniele,
+                Wesley,
+                Fausto_Vera,
+                Yuri_Alberto
+              ), 
+              substitutes = list(
+                Ángel_Romero,
+                Hugo,
+                Matheus_Araújo,
+                Gustavo_Silva,
+                Arthur_Sousa
+              ),
+              red_cards = list(NULL),
+              goals = list(NULL)
+)
+
+```
+
+# Campeonato Paulista A1 - round 4
+```{r}
+season_2024_cp_round_4 <- new("CorinthiansMatch",
+              stadium = "Neo Química Arena ",
+              city = "São Paulo (SP)",
+              country = "Brasil",
+              competition_type = "Campeonato Paulista A1",
+              corinthians_goals = 1,
+              opponent_goals = 2,
+              coach = Mano_Menezes,
+              opponent_name = "São Paulo",
+              date = as.Date("2024-01-20"),
+              referee_name = "João Vitor Gobi",
+              starting_lineup = list( # Create PlayerProfile objects for each player
+                Cássio,
+                Fágner,
+                F_Torres,
+                Hugo,
+                Caetano,
+                M_Rojas,
+                Maycon,
+                Raniele,
+                Ángel_Romero,
+                Fausto_Vera,
+                Yuri_Alberto
+              ), 
+              substitutes = list(
+                Raul_Gustavo,
+                Wesley,
+                Kayke,
+                Arthur_Sousa,
+                Ryan_Gustavo
+              ),
+              red_cards = list(Caetano),
+              goals = list(
+                list(scorer = Arthur_Sousa, minute = 90+1)
+                           )
+)
+
+```
+
+```{r}
+season_2024 <- data.frame(match = I(list(match_1 = season_2024_cp_round_1,
+                                         match_2 = season_2024_cp_round_2,
+                                         match_3 = season_2024_cp_round_3,
+                                         match_4 = season_2024_cp_round_4)))
+```
+
+# Player appearances
+```{r}
+# Extract player names from each match, combining starting lineup and substitutes
+player_starter <- season_2024 %>%
+  mutate(
+    starters = lapply(match, function(m) lapply(m@starting_lineup, function(p) p@full_name))
+  ) %>%
+  unnest(c(starters)) %>%
+  mutate(full_name = unlist(starters), # Extract the player name from the list,
+         appearance_type = "starter") %>%
+  dplyr::select(full_name, appearance_type) 
+
+player_substitute <- season_2024 %>%
+  mutate(
+    substitutes = lapply(match, function(m) lapply(m@substitutes, function(p) p@full_name))
+  ) %>%
+  unnest(c(substitutes)) %>%
+  mutate(full_name = unlist(substitutes), # Extract the player name from the list,
+         appearance_type = "substitute") %>%
+  dplyr::select(full_name, appearance_type) 
+
+player_appearances <- player_starter %>% rbind(player_substitute)
+
+# Extract goals scored by players
+player_goals <- season_2024 %>%
+  mutate(goals = lapply(match, function(m) {
+    if (!is.null(m@goals[[1]]) && length(m@goals[[1]]) > 0) {
+      lapply(m@goals, function(g) g$scorer@full_name)
+    } else {
+      NULL
+    }
+  }),
+  minute = lapply(match, function(m) {
+    if (!is.null(m@goals[[1]]) && length(m@goals[[1]]) > 0) {
+      lapply(m@goals, function(g) g$minute)
+    } else {
+      NULL
+    }
+  })) %>%
+  unnest(goals) %>%
+  mutate(full_name = unlist(goals)) %>%
+  unnest(minute) %>%
+  mutate(time = unlist(minute)) %>%
+  group_by(full_name) %>%
+  summarise(goals_scored = n(), .groups = 'drop')
+
+player_red_cards <- season_2024 %>%
+  mutate(red_cards = lapply(match, function(m) {
+    if (length(m@red_cards[[1]]) > 0 && !is.null(m@red_cards[[1]])) { # Check if there are any red cards
+      lapply(m@red_cards, function(p) p@full_name)
+    } else {
+      NULL 
+    }
+  })) %>%
+  unnest(red_cards) %>%
+  mutate(full_name = unlist(red_cards)) %>%
+  group_by(full_name) %>%
+  summarise(red_cards = n(), .groups = 'drop')
+
+player_stats <- player_appearances %>%
+  group_by(full_name) %>%
+  summarise(
+    matches_started = sum(appearance_type == "starter"),
+    matches_substituted = sum(appearance_type == "substitute")
+  ) %>%
+  full_join(player_goals) %>% 
+  full_join(player_red_cards) %>% # Join red card data
+  mutate(goals_scored = ifelse(is.na(goals_scored), 0, goals_scored)) %>% 
+  mutate(red_cards = ifelse(is.na(red_cards), 0, red_cards))
+
+player_stats <- player_profile_df %>% full_join(player_stats)
+
+player_stats
+```
+
