@@ -1,26 +1,6 @@
----
-title: "Corinthians"
-author: "Carlos Eduardo Madureira Trufen"
-date: "2024-08-13"
-output: html_document
----
-
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
-
-## R Markdown
-
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
-
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
-
-```{r}
 library(tidyverse)
-```
 
 # Define the S4 class
-```{r}
 setClass("CorinthiansMatch",
          slots = list(
            stadium = "character",
@@ -86,9 +66,7 @@ setClass("Goal",
            match = "CorinthiansMatch" # Optional
          )
 )
-```
 
-```{r}
 # Create player and coach profiles
 Cássio <- new("PlayerProfile", full_name = "Cássio Ramos", player = "Cássio", birth_date = as.Date("1987-06-06"), country_of_origin = "Brasil")
 Fágner <- new("PlayerProfile", full_name = "Fágner Conserva Lemos", player = "Fágner", birth_date = as.Date("1989-06-11"), country_of_origin = "Brasil")
@@ -130,14 +108,8 @@ player_profile_df <- data.frame(
   mutate(birth_date = birth_date %>% as.Date()) %>% 
   dplyr::select(player, full_name, birth_date, country_of_origin)
 
-# luxemburgo <- new("CoachProfile", name = "Vanderlei Luxemburgo", birth_date = as.Date("1952-05-10"))
-```
-
-
 # Season 2024
 # Campeonato Paulista A1 - round 1
-```{r}
-# Create a match object
 season_2024_cp_round_1 <- new("CorinthiansMatch",
               stadium = "Neo Química Arena",
               city = "São Paulo (SP)",
@@ -177,10 +149,8 @@ season_2024_cp_round_1 <- new("CorinthiansMatch",
 
 # Call the validation method
 validateGoals(season_2024_cp_round_1) 
-```
 
 # Campeonato Paulista A1 - round 2
-```{r}
 season_2024_cp_round_2 <- new("CorinthiansMatch",
               stadium = " Estádio Municipal Dr. Novelli Júnior",
               city = "Itu (SP)",
@@ -216,12 +186,7 @@ season_2024_cp_round_2 <- new("CorinthiansMatch",
               goals = list(NULL)
 )
 
-validateGoals(season_2024_cp_round_2) 
-
-```
-
 # Campeonato Paulista A1 - round 3
-```{r}
 season_2024_cp_round_3 <- new("CorinthiansMatch",
               stadium = "Estádio Primeiro de Maio",
               city = "São Bernardo do Campo (SP)",
@@ -257,10 +222,7 @@ season_2024_cp_round_3 <- new("CorinthiansMatch",
               goals = list(NULL)
 )
 
-```
-
 # Campeonato Paulista A1 - round 4
-```{r}
 season_2024_cp_round_4 <- new("CorinthiansMatch",
               stadium = "Neo Química Arena ",
               city = "São Paulo (SP)",
@@ -298,17 +260,12 @@ season_2024_cp_round_4 <- new("CorinthiansMatch",
                            )
 )
 
-```
-
-```{r}
 season_2024 <- data.frame(match = I(list(match_1 = season_2024_cp_round_1,
                                          match_2 = season_2024_cp_round_2,
                                          match_3 = season_2024_cp_round_3,
                                          match_4 = season_2024_cp_round_4)))
-```
 
 # Player appearances
-```{r}
 # Extract player names from each match, combining starting lineup and substitutes
 player_starter <- season_2024 %>%
   mutate(
@@ -380,5 +337,3 @@ player_stats <- player_appearances %>%
 player_stats <- player_profile_df %>% full_join(player_stats)
 
 player_stats
-```
-
