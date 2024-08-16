@@ -91,7 +91,27 @@ Yuri_Alberto <- new("PlayerProfile", full_name = "Yuri Alberto Monteiro da Silva
 
 Mano_Menezes <- new("CoachProfile", full_name = "Luiz Antônio Venker de Menezes", coach = "Mano Menezes", birth_date = as.Date("1962-06-11"), country_of_origin = "Brasil")
 
-all_player_profiles <- c(Cássio, Fágner, F_Torres, Hugo, Caetano, M_Rojas, Maycon, Raniele, Matheus_Araújo, Ángel_Romero, Yuri_Alberto, Wesley, Fausto_Vera, Gustavo_Silva, Yago_Kauã)
+all_player_profiles <- c(Ángel_Romero,
+                         Arthur_Sousa,
+                         Caetano,
+                         Cássio,
+                         D_Palacios,
+                         Fágner,
+                         Fausto_Vera,
+                         F_Torres,
+                         Gustavo_Silva,
+                         Hugo,
+                         Kayke,
+                         M_Rojas,
+                         Matheus_Araújo,
+                         Maycon,
+                         Raul_Gustavo,
+                         Raniele,
+                         Ryan_Gustavo,
+                         Wesley,
+                         Yago_Kauã,
+                         Yuri_Alberto
+                         )
 
 player_profile_df <- data.frame(
   full_name = sapply(all_player_profiles, function(p) p@full_name),
