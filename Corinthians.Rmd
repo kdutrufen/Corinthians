@@ -79,9 +79,11 @@ Fágner <- new("PlayerProfile", full_name = "Fágner Conserva Lemos", player = "
 Gustavo_Silva <- new("PlayerProfile", full_name = "Gustavo Henric da Silva", player = "Gustavo Silva", birth_date = as.Date("1997-09-07"), country_of_origin = "Brasil")
 Hugo <- new("PlayerProfile", full_name = "Hugo Ferreira de Farias", player = "Hugo", birth_date = as.Date("1997-08-29"), country_of_origin = "Brasil")
 Kayke <- new("PlayerProfile", full_name = "Kayke Ferrari Guimarães", player = "Kayke", birth_date = as.Date("2004-04-28"), country_of_origin = "Brasil")
+Léo_Mana <- new("PlayerProfile", full_name = "Leonardo Mana Hernandes", player = "Léo Mana", birth_date = as.Date("2004-04-06"), country_of_origin = "Brasil")
 M_Rojas <- new("PlayerProfile", full_name = "Matías Nicolás Rojas Romero", player = "M. Rojas", birth_date = as.Date("1995-11-03"), country_of_origin = "Paraguai")
 Matheus_Araújo <- new("PlayerProfile", full_name = "Matheus de Araújo Andrade", player = "Matheus Araújo", birth_date = as.Date("2002-05-22"), country_of_origin = "Brasil")
 Maycon <- new("PlayerProfile", full_name = "Maycon de Andrade Barberan", player = "Maycon", birth_date = as.Date("1997-07-15"), country_of_origin = "Brasil")
+Pedro_Raúl <- new("PlayerProfile", full_name = "Pedro Raúl Garay da Silva", player = "Pedro Raúl", birth_date = as.Date("1996-11-05"), country_of_origin = "Brasil")
 Raniele <- new("PlayerProfile", full_name = "Raniele Almeida Melo", player = "Raniele", birth_date = as.Date("1996-12-31"), country_of_origin = "Brasil")
 Raul_Gustavo <- new("PlayerProfile", full_name = "Raul Gustavo Pereira Bicalho", player = "Raul Gustavo", birth_date = as.Date("1999-04-24"), country_of_origin = "Brasil")
 Ryan_Gustavo <- new("PlayerProfile", full_name = "Ryan Gustavo de Lima", player = "Ryan Gustavo", birth_date = as.Date("2003-07-15"), country_of_origin = "Brasil")
@@ -102,9 +104,11 @@ all_player_profiles <- c(Ángel_Romero,
                          Gustavo_Silva,
                          Hugo,
                          Kayke,
+                         Léo_Mana,
                          M_Rojas,
                          Matheus_Araújo,
                          Maycon,
+                         Pedro_Raúl,
                          Raul_Gustavo,
                          Raniele,
                          Ryan_Gustavo,
@@ -275,10 +279,49 @@ season_2024_cp_round_4 <- new("CorinthiansMatch",
                            )
 )
 
+season_2024_cp_round_5 <- new("CorinthiansMatch",
+              stadium = "Neo Química Arena ",
+              city = "São Paulo (SP)",
+              country = "Brasil",
+              competition_type = "Campeonato Paulista A1",
+              corinthians_goals = 1,
+              opponent_goals = 3,
+              coach = Mano_Menezes,
+              opponent_name = "Novorizontino",
+              date = as.Date("2024-02-04"),
+              referee_name = "Matheus Delgado Candançan",
+              starting_lineup = list( # Create PlayerProfile objects for each player
+                Cássio,
+                Fágner,
+                F_Torres,
+                Hugo,
+                Raul_Gustavo,
+                Maycon,
+                Raniele,
+                Matheus_Araújo,
+                Ángel_Romero,
+                Gustavo_Silva,
+                Pedro_Raúl
+              ), 
+              substitutes = list(
+                M_Rojas,
+                Fausto_Vera,
+                Yuri_Alberto,
+                Léo_Mana,
+                Wesley
+              ),
+              red_cards = list(NULL),
+              goals = list(
+                list(scorer = Yuri_Alberto, minute = 72)
+                           )
+)
+
 season_2024 <- data.frame(match = I(list(match_1 = season_2024_cp_round_1,
                                          match_2 = season_2024_cp_round_2,
                                          match_3 = season_2024_cp_round_3,
-                                         match_4 = season_2024_cp_round_4)))
+                                         match_4 = season_2024_cp_round_4,
+                                         match_5 = season_2024_cp_round_5
+                                         )))
 
 # Player appearances
 # Extract player names from each match, combining starting lineup and substitutes
