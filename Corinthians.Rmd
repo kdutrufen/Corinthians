@@ -84,6 +84,7 @@ M_Rojas <- new("PlayerProfile", full_name = "Matías Nicolás Rojas Romero", pla
 Matheus_Araújo <- new("PlayerProfile", full_name = "Matheus de Araújo Andrade", player = "Matheus Araújo", birth_date = as.Date("2002-05-22"), country_of_origin = "Brasil")
 Maycon <- new("PlayerProfile", full_name = "Maycon de Andrade Barberan", player = "Maycon", birth_date = as.Date("1997-07-15"), country_of_origin = "Brasil")
 Pedro_Raúl <- new("PlayerProfile", full_name = "Pedro Raúl Garay da Silva", player = "Pedro Raúl", birth_date = as.Date("1996-11-05"), country_of_origin = "Brasil")
+R_Garro <- new("PlayerProfile", full_name = "Rodrigo Garro", player = "Rodrigo Garro", birth_date = as.Date("1998-01-04"), country_of_origin = "Argentina")
 Raniele <- new("PlayerProfile", full_name = "Raniele Almeida Melo", player = "Raniele", birth_date = as.Date("1996-12-31"), country_of_origin = "Brasil")
 Raul_Gustavo <- new("PlayerProfile", full_name = "Raul Gustavo Pereira Bicalho", player = "Raul Gustavo", birth_date = as.Date("1999-04-24"), country_of_origin = "Brasil")
 Ryan_Gustavo <- new("PlayerProfile", full_name = "Ryan Gustavo de Lima", player = "Ryan Gustavo", birth_date = as.Date("2003-07-15"), country_of_origin = "Brasil")
@@ -92,6 +93,7 @@ Yago_Kauã <- new("PlayerProfile", full_name = "Yago Kauã Rodrigues Gonçalves"
 Yuri_Alberto <- new("PlayerProfile", full_name = "Yuri Alberto Monteiro da Silva", player = "Yuri Alberto", birth_date = as.Date("2001-03-18"), country_of_origin = "Brasil")
 
 Mano_Menezes <- new("CoachProfile", full_name = "Luiz Antônio Venker de Menezes", coach = "Mano Menezes", birth_date = as.Date("1962-06-11"), country_of_origin = "Brasil")
+Thiago_Kosloski <- new("CoachProfile", full_name = "Thiago Kosloski", coach = "Thiago Kosloski", birth_date = as.Date("1981-05-16"), country_of_origin = "Brasil")
 
 all_player_profiles <- c(Ángel_Romero,
                          Arthur_Sousa,
@@ -109,6 +111,7 @@ all_player_profiles <- c(Ángel_Romero,
                          Matheus_Araújo,
                          Maycon,
                          Pedro_Raúl,
+                         R_Garro,
                          Raul_Gustavo,
                          Raniele,
                          Ryan_Gustavo,
@@ -316,11 +319,47 @@ season_2024_cp_round_5 <- new("CorinthiansMatch",
                            )
 )
 
+season_2024_cp_round_6 <- new("CorinthiansMatch",
+              stadium = " Estádio Urbano Caldeira",
+              city = "Santos (SP)",
+              country = "Brasil",
+              competition_type = "Campeonato Paulista A1",
+              corinthians_goals = 0,
+              opponent_goals = 1,
+              coach = Thiago_Kosloski,
+              opponent_name = "Santos",
+              date = as.Date("2024-02-07"),
+              referee_name = "Flavio Rodrigues De Souza",
+              starting_lineup = list( # Create PlayerProfile objects for each player
+                Cássio,
+                Fágner,
+                F_Torres,
+                Hugo,
+                Caetano,
+                Maycon,
+                Raniele,
+                R_Garro,
+                Ángel_Romero,
+                Pedro_Raúl,
+                Wesley
+              ), 
+              substitutes = list(
+                Yuri_Alberto,
+                Gustavo_Silva,
+                M_Rojas,
+                Ryan_Gustavo,
+                Fausto_Vera
+                ),
+              red_cards = list(NULL),
+              goals = list(NULL)
+)
+
 season_2024 <- data.frame(match = I(list(match_1 = season_2024_cp_round_1,
                                          match_2 = season_2024_cp_round_2,
                                          match_3 = season_2024_cp_round_3,
                                          match_4 = season_2024_cp_round_4,
-                                         match_5 = season_2024_cp_round_5
+                                         match_5 = season_2024_cp_round_5,
+                                         match_6 = season_2024_cp_round_6
                                          )))
 
 # Player appearances
