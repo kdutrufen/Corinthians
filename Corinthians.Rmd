@@ -354,12 +354,51 @@ season_2024_cp_round_6 <- new("CorinthiansMatch",
               goals = list(NULL)
 )
 
+season_2024_cp_round_7 <- new("CorinthiansMatch",
+              stadium = "Neo Química Arena",
+              city = "São Paulo (SP)",
+              country = "Brasil",
+              competition_type = "Campeonato Paulista A1",
+              corinthians_goals = 2,
+              opponent_goals = 0,
+              coach = Thiago_Kosloski,
+              opponent_name = "Portuguesa",
+              date = as.Date("2024-02-11"),
+              referee_name = "Luiz Flávio de Oliveira",
+              starting_lineup = list( # Create PlayerProfile objects for each player
+                Cássio,
+                Fágner,
+                F_Torres,
+                Raul_Gustavo,
+                Caetano,
+                Maycon,
+                Raniele,
+                R_Garro,
+                Pedro_Raúl,
+                Yuri_Alberto,
+                Wesley
+              ), 
+              substitutes = list(
+                M_Rojas,
+                Gustavo_Silva,
+                Ryan_Gustavo,
+                Fausto_Vera,
+                Hugo
+                ),
+              red_cards = list(NULL),
+              goals = list(
+                list(scorer = Maycon, minute = 44, penalti = TRUE),
+                list(scorer = Yuri_Alberto, minute = 78)
+              )
+)
+
 season_2024 <- data.frame(match = I(list(match_1 = season_2024_cp_round_1,
                                          match_2 = season_2024_cp_round_2,
                                          match_3 = season_2024_cp_round_3,
                                          match_4 = season_2024_cp_round_4,
                                          match_5 = season_2024_cp_round_5,
-                                         match_6 = season_2024_cp_round_6
+                                         match_6 = season_2024_cp_round_6,
+                                         match_7 = season_2024_cp_round_7
                                          )))
 
 # Player appearances
